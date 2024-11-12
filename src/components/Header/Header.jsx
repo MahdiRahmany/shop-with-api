@@ -20,19 +20,21 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 right-0 w-full flex justify-between items-center p-4 bg-blue-500 text-white">
+      <header className="sticky z-10 top-0 right-0 w-full backdrop-blur transition-colors duration-500 rounded-b-xl text-zinc-800 border-inherit flex justify-between items-center p-4 shadow-2xl">
         <Link to="/" className="text-3xl font-bold">
           Shop Logo
-        </Link>
-        <div className="flex items-center gap-2">
-          <span className="bg-white text-blue-500 rounded-full px-2 py-1">
-            {totalItems}
-          </span>
-          <FaShoppingCart
-            className="text-3xl cursor-pointer transition-transform transform hover:scale-110"
+        </Link>          
+          <div
+            className="relative flex items-center gap-2 cursor-pointer hover:scale-110 transition-transform transform duration-300 right-3"
             onClick={toggleModal}
-          />
-        </div>
+          >
+            <FaShoppingCart className=" text-3xl"></FaShoppingCart>
+            {totalItems > 0 && (
+              <span className="text-center -top-3 -right-4  text-white bg-zinc-500 rounded-full w-6 h-6 absolute">
+                {totalItems}
+              </span>
+            )}
+          </div>
       </header>
       {modalOpen && <CartModal cartItems={cartItems} onClose={toggleModal} />}
     </>

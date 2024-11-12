@@ -3,20 +3,30 @@ import {
   decrementItemQuantity,
   incrementItemQuantity,
   removeItemCart,
+  selectTotalItems,
+  selectTotalPrice,
 } from "../../store/slices/cart-slice";
+import { useCallback } from "react";
 
 const CartModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const totalItems = useSelector(selectTotalItems);
+  const totalPrice = useSelector(selectTotalPrice);
 
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * (item.quantity || 1),
-    0
+  const handleIncrement = useCallback(
+    (id) => dispatch(incrementItemQuantity(id)),
+    [dispatch]
   );
 
-  const totalItems = cartItems.reduce(
-    (sum, item) => sum + (item.quantity || 1),
-    0
+  const handleDecrement = useCallback(
+    (id) => dispatch(decrementItemQuantity(id)),
+    [dispatch]
+  );
+
+  const handleRemove = useCallback(
+    (id) => dispatch(removeItemCart(id)),
+    [dispatch]
   );
 
   return (
@@ -28,7 +38,7 @@ const CartModal = ({ onClose }) => {
             {cartItems.map((item) => (
               <li
                 key={item.id}
-                className="mb-2 border-b pb-2 flex justify-between item-center gap-2"
+                className="mb-2 border-b pb-2 flex justify-between items-center"
               >
                 <div className="flex items-center">
                   <img
@@ -39,35 +49,38 @@ const CartModal = ({ onClose }) => {
                   <div>
                     <h3 className="text-lg font-semi-bold">{item.title}</h3>
                     <p className="text-gray-700">
-                      $ {(item.price * (item.quantity || 1)).toFixed(2)}
-                      <span className="text-sm text-gray-700">
+                      ${(item.price * (item.quantity || 1)).toFixed(2)}
+                      <span className="text-sm text-gray-600">
                         &nbsp;({item.price} each)
                       </span>
                     </p>
                   </div>
                 </div>
-                <button
-                  className="text-red-500 hover:text-red-700"
-                  onClick={() => dispatch(removeItemCart(item.id))}
-                >
-                  Remove
-                </button>
-                <div className="bg-slate-600 flex items-center rounded py-1">
+
+                <div className="flex items-center space-x-4">
                   <button
-                    className="px-3 py-1 text-xl font-bold text-blue-600 hover:text-blue-800"
-                    onClick={() => dispatch(incrementItemQuantity(item.id))}
+                    className="text-red-500 hover:text-red-700"
+                    onClick={() => handleRemove(item.id)}
                   >
-                    +
+                    Remove
                   </button>
-                  <span className="text-xl font-bold w-8 text-center">
-                    {item.quantity || 1}
-                  </span>
-                  <button
-                    className="px-3 py-1 text-xl font-bold text-blue-600  hover:text-blue-800"
-                    onClick={() => dispatch(decrementItemQuantity(item.id))}
-                  >
-                    -
-                  </button>
+                  <div className="flex items-center bg-slate-200 rounded">
+                    <button
+                      className="px-2 py-1 text-xl font-bold text-blue-600 hover:text-blue-800"
+                      onClick={() => handleIncrement(item.id)}
+                    >
+                      +
+                    </button>
+                    <span className="text-lg font-bold px-3">
+                      {item.quantity || 1}
+                    </span>
+                    <button
+                      className="px-2 py-1 text-xl font-bold text-blue-600  hover:text-blue-800"
+                      onClick={() => handleDecrement(item.id)}
+                    >
+                      -
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}

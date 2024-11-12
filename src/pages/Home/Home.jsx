@@ -4,6 +4,7 @@ import { fetchProducts } from "../../store/slices/products-slice";
 import { addItemCart } from "../../store/slices/cart-slice";
 import Card from "../Card/Card";
 import Header from "../../components/Header/Header";
+import CategorySearch from "../../components/CategorySearch/CategorySearch";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Home = () => {
   } = useSelector((state) => state.products);
 
   useEffect(() => {
+    console.log("Fetching products home...");
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -21,11 +23,12 @@ const Home = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <div className="xl:max-w-7xl lg:max-w-7xl md:w-screen sm:w-screen mx-auto ">
       <Header />
-      <h1 className="mt-24 text-3xl font-bold text-center my-8">
+      <h1 className="text-3xl font-bold text-center my-8">
         Welcome to the Store Shop
       </h1>
+      <CategorySearch />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
         {data.map((item) => (
           <Card
