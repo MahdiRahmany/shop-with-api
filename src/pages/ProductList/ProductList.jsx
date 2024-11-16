@@ -8,7 +8,6 @@ const ProductList = () => {
   const { items, loading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
-    console.log("Fetching products list...");
     dispatch(fetchProducts());
   }, [dispatch]);
 

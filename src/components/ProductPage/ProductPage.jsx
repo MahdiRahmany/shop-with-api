@@ -17,7 +17,6 @@ const ProductPage = () => {
   } = useSelector((state) => state.product);
 
   useEffect(() => {
-    console.log("Fetching products page...");
     dispatch(fetchProduct(id));
 
     return () => {
