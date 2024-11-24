@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { addItemCart, selectIsInCart } from "../../store/slices/cart-slice";
 import { useCallback, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
+import { Divider } from "@mui/material";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import StarIcon from "@mui/icons-material/Star";
+import { IoIosPricetags } from "react-icons/io";
 
-const Card = ({ id, image, title, price }) => {
+const Card = ({ id, image, title, price, rate }) => {
   const [like, setLike] = useState(false);
   const dispatch = useDispatch();
 
@@ -15,7 +19,6 @@ const Card = ({ id, image, title, price }) => {
   }, [dispatch, id, image, title, price]);
 
   const handleLike = () => {
-    // handleAllList(data, like);
     setLike((like) => !like);
   };
 
@@ -35,10 +38,33 @@ const Card = ({ id, image, title, price }) => {
             className="rounded-md mb-4 object-contain w-40 h-40"
           />
         </div>
-        <h3 className="text-md font-semibold mb-2">{title}</h3>
-        <p className="text-gray-700 mb-4">{price} USD</p>
+        <h3 className="text-md font-semibold mb-2">
+          <FormatListBulletedIcon /> {title}
+        </h3>
+        <div className="flex items-center justify-between text-yellow-500">
+          <div className="flex items-center">
+            <IoIosPricetags />
+            <p className=" ml-1">{price} USD</p>
+          </div>
+          <div className="flex items-center">
+            <StarIcon fontSize="small mr-1" />
+            <p>{rate}</p>
+          </div>
+        </div>
       </Link>
-     <div className="p-4">
+      <div className="p-2">
+        <Divider
+          sx={{
+            display: "flex",
+            alignsItems: "center",
+            justifyContent: "center",
+            m: 1,
+            width: "100%",
+            borderRadius: 2,
+            border: "1px solid",
+            borderColor: "primary.main",
+          }}
+        />
         <button
           onClick={handleAddCart}
           disabled={isInCart}

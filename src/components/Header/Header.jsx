@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
 import CartModal from "../CardModal/CardModal";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Dropdown from "../Dropdown/Dropdown";
+import AccountMenu from "../Dropdown/Dropdown";
+import ThemeToggle from "../DarkMode/DarkMode";
 
 const Header = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -25,18 +26,26 @@ const Header = () => {
         <Link to="/" className="text-3xl font-bold">
           Shop Logo
         </Link>
-        <div
-          className="relative flex items-center gap-2 cursor-pointer hover:scale-110 transition-transform transform duration-300 right-3"
-          onClick={toggleModal}
-        >
-          <FaShoppingCart className=" text-3xl" />
-          {totalItems > 0 && (
-            <span className="text-center -top-3 -right-4  text-white bg-zinc-500 rounded-full w-6 h-6 absolute">
-              {totalItems}
-            </span>
-          )}
+        <div className="flex min-w-36 justify-between items-center">
+          <div
+            className="relative flex items-center cursor-pointer hover:scale-110 transition-transform transform duration-300"
+            onClick={toggleModal}
+          >
+            <LuShoppingCart
+              className=" text-3xl"
+              style={{
+                color: "#94a3b8",
+              }}
+            />
+            {totalItems > 0 && (
+              <span className="text-center -top-1 -right-3  text-white bg-zinc-500 rounded-full w-6 h-6 absolute">
+                {totalItems}
+              </span>
+            )}
+          </div>
+          <AccountMenu />
+          <ThemeToggle />
         </div>
-        <Dropdown />
       </header>
       {modalOpen && <CartModal cartItems={cartItems} onClose={toggleModal} />}
     </>

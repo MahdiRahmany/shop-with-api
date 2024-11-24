@@ -30,8 +30,15 @@ const CartModal = ({ onClose }) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center ">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full">
+    <div
+      id="modal-background"
+      onClick={onClose}
+      className="fixed z-10 inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center "
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full"
+      >
         <h2 className="text-xl font-bold mb-4">Your Cart {totalItems} items</h2>
         {cartItems.length > 0 ? (
           <ul className="max-h-[calc(100vh-11rem)] overflow-y-auto">

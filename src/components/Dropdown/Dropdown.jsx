@@ -1,85 +1,91 @@
-import React from "react";
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
-  Card,
-  Typography,
-} from "@material-tailwind/react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
+import { Fragment, useState } from "react";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Logout from "@mui/icons-material/Logout";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 
-const Dropdown = [
-  {
-    title: "@material-tailwind/html",
-    description:
-      "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-  },
-  {
-    title: "@material-tailwind/react",
-    description:
-      "Learn how to use @material-tailwind/react, packed with rich components for React.",
-  },
-  {
-    title: "Material Tailwind PRO",
-    description:
-      "A complete set of UI Elements for building faster websites in less time.",
-  },
-];
-
-export function MenuCustomList() {
-  const [openMenu, setOpenMenu] = React.useState(false);
-
+export default function AccountMenu() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
-    <Menu open={openMenu} handler={setOpenMenu} allowHover>
-      <MenuHandler>
-        <Button
-          variant="text"
-          className="flex items-center gap-3 text-base font-normal capitalize tracking-normal"
-        >
-          Technology{" "}
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`h-3.5 w-3.5 transition-transform ${
-              openMenu ? "rotate-180" : ""
-            }`}
-          />
-        </Button>
-      </MenuHandler>
-      <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid">
-        <Card
-          color="gray"
-          shadow={false}
-          className="col-span-3 flex h-full w-full items-center justify-center rounded-2xl p-4"
-        >
-          <CursorArrowRaysIcon strokeWidth={1} className="h-10 w-10" />
-          <Typography className="mt-5 text-center" variant="h5">
-            Material Tailwind PRO
-          </Typography>
-        </Card>
-        <ul className="col-span-4 flex w-full flex-col gap-1">
-          {menuItems.map(({ title, description }) => (
-            <a href="#" key={title}>
-              <MenuItem>
-                <Typography variant="h6" color="blue-gray" className="mb-1">
-                  {title}
-                </Typography>
-                <Typography
-                  variant="small"
-                  color="gray"
-                  className="font-normal"
-                >
-                  {description}
-                </Typography>
-              </MenuItem>
-            </a>
-          ))}
-        </ul>
-      </MenuList>
-    </Menu>
+    <Fragment>
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center",  }}>
+        <Tooltip title="Profile">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            <Avatar sx={{ width: 35, height: 35 }}>M</Avatar>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&::before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleClose}>
+          <PersonOutlineIcon /> &nbsp; Profile
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <FavoriteBorderRoundedIcon /> &nbsp; Favorite
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </Fragment>
   );
 }
-
-export default Dropdown;

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import ClickClose from "../ClickClose/ClickClose";
 
-const CategorySearch = ({ products, onSearch }) => {
+const CategorySearch = ({ products, onSearch, toggle }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -46,8 +47,11 @@ const CategorySearch = ({ products, onSearch }) => {
         </ul>
       </div>
 
-      <div className="relative">
-        <div className="flex items-center bg-gray-200 px-4 py-2 rounded-full shadow-md border border-gray-300">
+      <div className="relative" toggle={ClickClose}>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center bg-gray-200 px-4 py-2 rounded-full shadow-md border border-gray-300"
+        >
           <FaSearch className="tex-gray-600 cursor-pointer" />
           &nbsp;
           <input
